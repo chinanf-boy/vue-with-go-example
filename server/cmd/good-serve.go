@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"mime"
 	"net/http"
 	fp "path/filepath"
@@ -12,6 +11,8 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
+
+	"github.com/chinanf-boy/vue-with-go-example/assets"
 
 	"github.com/julienschmidt/httprouter"
 	"golang.org/x/net/context"
@@ -26,8 +27,8 @@ var (
 	FS = webdav.NewMemFS()
 
 	serveCmd = &cobra.Command{
-		Use:   "serve",
-		Short: "Serve 打开服务器",
+		Use:   "good-serve",
+		Short: "Serve 打开服务器 随便哪里",
 		Long:  "运行一个简单且高性能的Web服务器。如果不使用--port标志，则默认使用端口8080。",
 		Run: func(cmd *cobra.Command, args []string) {
 
@@ -69,7 +70,7 @@ func serveFiles(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	}
 
 	// Load asset
-	asset, err := ReadFile(path)
+	asset, err := assets.ReadFile(path)
 	check(err)
 
 	// Set response header content type
@@ -92,41 +93,12 @@ func serveIndexPage(w http.ResponseWriter, r *http.Request, ps httprouter.Params
 	// 	return
 	// }
 
-	asset, err := ReadFile("index.html")
-	check(err)
+	asset, _ := assets.ReadFile("index.html")
 	w.Header().Set("Content-Type", "text/html")
 	buffer := bytes.NewBuffer(asset)
 	io.Copy(w, buffer)
 
 }
-
-// ReadFile read path
-func ReadFile(path string) ([]byte, error) {
-
-	f, err := ioutil.ReadFile("client/" + path)
-	if err != nil {
-		return nil, err
-	}
-
-	// buf := bytes.NewBuffer(make([]byte, 0, bytes.MinRead))
-
-	// If the buffer overflows, we will get bytes.ErrTooLarge.
-	// Return that as an error. Any other panic remains.
-	defer func() {
-		e := recover()
-		if e == nil {
-			return
-		}
-		if panicErr, ok := e.(error); ok && panicErr == bytes.ErrTooLarge {
-			err = panicErr
-		} else {
-			panic(e)
-		}
-	}()
-	// _, err = buf.ReadFrom(f)
-	return f, err
-}
-
 func check(err error) {
 	if err != nil {
 		panic(err)

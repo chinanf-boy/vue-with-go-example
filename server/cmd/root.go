@@ -8,8 +8,9 @@ import (
 )
 
 var (
-	// DB is database that used by this cli
-	// DB database.Database
+
+	// Paths cli run Path
+	Paths string
 
 	rootCmd = &cobra.Command{
 		Use:   "shiori",
