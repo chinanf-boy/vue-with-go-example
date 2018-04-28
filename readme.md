@@ -8,7 +8,7 @@
 
 ## go后端与vue前端例子
 
-### use
+### use-使用
 
 - 1. `git clone `
 
@@ -31,7 +31,7 @@ vue-with-go-example bad-serve
 
 <details>
 
-<summary>有关 good 和 bad serve 有什么区别<summary>
+<summary><h3>有关 good 和 bad serve 有什么区别</h3></summary>
 
 ```
 go get -u -v github.com/chinanf-boy/vue-with-go-example 
@@ -82,7 +82,7 @@ filebox.json
 }
 ```
 
-<details>
+</details>
   
 ---
 
