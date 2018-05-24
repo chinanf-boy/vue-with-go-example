@@ -50,7 +50,7 @@ var (
 
 func init() {
 	badserveCmd.Flags().IntP("port", "p", 8070, "Port that used by server")
-	rootCmd.AddCommand(serveCmd)
+	rootCmd.AddCommand(badserveCmd)
 }
 
 func bserveFiles(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
